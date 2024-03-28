@@ -1,0 +1,42 @@
+<!--
+ * @Author: wuxiaojie
+ * @Date: 2020-09-07 16:31:49
+ * @LastEditors: wuxiaojie
+ * @LastEditTime: 2020-11-06 10:25:08
+-->
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <META HTTP-EQUIV="pragma" CONTENT="no-cache">
+    <META HTTP-EQUIV="Cache-Control" CONTENT="no-cache, must-revalidate">
+    <META HTTP-EQUIV="expires" CONTENT="0">
+    <title></title>
+    <!-- <script src="./src/map.js"></script> -->
+    <style>
+        #map {
+            width: 100vw;
+            height: 100vh;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="map"></div>
+    <script type="module">
+            import {Map,Point,Polyline, Polygon } from "./src/index.js"
+            let map = new Map("map")
+            let point=new Point([50, 150])
+            let line=new Polyline([[50, 50], [50, 100], [100, 100], [100, 50], [50, 50]])
+            let polygon=new Polygon([[[100, 100], [100, 150], [150, 150], [150, 100], [100, 100]]])
+            map.add(point)
+            map.add(line)
+            map.add(polygon);
+            // map.clear()
+     </script>
+</body>
+
+
+</html>

@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <META HTTP-EQUIV="pragma" CONTENT="no-cache">
+    <META HTTP-EQUIV="Cache-Control" CONTENT="no-cache, must-revalidate">
+    <META HTTP-EQUIV="expires" CONTENT="0">
+    <title></title>
+    <script type="text/javascript" src="https://webapi.amap.com/maps?v=1.4.15&key=您申请的key值"></script>
+    <!-- <script src="./src/map.js"></script> -->
+    <script src="./proj4.js"></script>
+    <style>
+        #map {
+            width: 100vw;
+            height: 100vh;
+            position: absolute;
+            z-index: 2;
+        }
+        #amap {
+            width: 100vw;
+            height: 100vh;
+            position: absolute;
+            z-index: 1;
+        }
+
+        .btn {
+            position: relative;
+            z-index: 100;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="map"></div>
+    <div id="amap"></div>
+    <button id="btn" class="btn">去掉点</button>
+    <script type="module" src="./index.js">
+    </script>
+</body>
+
+
+</html>

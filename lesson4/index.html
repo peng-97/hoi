@@ -1,0 +1,101 @@
+
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <META HTTP-EQUIV="pragma" CONTENT="no-cache">
+    <META HTTP-EQUIV="Cache-Control" CONTENT="no-cache, must-revalidate">
+    <META HTTP-EQUIV="expires" CONTENT="0">
+    <title></title>
+    <script type="text/javascript" src="https://webapi.amap.com/maps?v=1.4.15&key=您申请的key值"></script>
+    <!-- <script src="./src/map.js"></script> -->
+    <style>
+        #map {
+            width: 100vw;
+            height: 100vh;
+            position: absolute;
+            z-index: 2;
+        }
+        #amap {
+            width: 100vw;
+            height: 100vh;
+            position: absolute;
+            z-index: 1;
+        }
+        .btn{
+            position: relative;
+             z-index: 100;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="map"></div>
+    <div id="amap"></div>
+    <button id="btn" class="btn">去掉点</button>
+    <script type="module">
+        import { Map, Point, Polyline, Polygon,GraphicLayer,Graphic, PictureMarkerSymbol } from "./index.js"
+        let map = new Map("map", {
+            center: [0, 0],
+            zoom: 3,
+        })
+         
+              
+        //北京
+        const point = new Point([116.397411, 39.909186]);
+        let gra=new Graphic({geometry:point})
+        let point0 = new Point([0, 0]);
+        map.graphics.add(gra)
+        map.graphics.add({
+                geometry: point0,
+                symbol: new PictureMarkerSymbol()
+        })
+
+          let layer =new  GraphicLayer("gra");
+        
+        //经线
+        for (let i = -180; i <= 180; i = i + 10) {
+            const line = new Polyline([[i, -80], [i, 80]]);
+            let gra=new Graphic({geometry:line});
+            layer.add(gra)
+        }
+        //纬线
+        for (let j = -80; j <= 80; j = j + 10) {
+            const line = new Polyline([[-180, j], [180, j]]);
+            let gra = new Graphic({ geometry: line });
+            layer.add(gra)
+        }
+        map.addLayer(layer);
+
+        const amap = new AMap.Map("amap", {
+            fadeOnZoom: false,
+            navigationMode: 'classic',
+            optimizePanAnimation: false,
+            animateEnable: false,
+            dragEnable: false,
+            zoomEnable: false,
+            resizeEnable: true,
+            doubleClickZoom: false,
+            keyboardEnable: false,
+            scrollWheel: false,
+            expandZoomRange: true,
+            zooms: [1, 20],
+            mapStyle: 'normal',
+            features: ['road', 'point', 'bg'],
+            viewMode: '2D'
+        });
+        
+        map.on("extent", (event) => {
+            amap.setZoomAndCenter(event.zoom, event.center);
+        });
+        map.refresh();
+        document.getElementById("btn").addEventListener("click",function(){
+            map.graphics.removeAll()
+        })
+    </script>
+</body>
+
+
+</html>

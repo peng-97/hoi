@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <META HTTP-EQUIV="pragma" CONTENT="no-cache">
+    <META HTTP-EQUIV="Cache-Control" CONTENT="no-cache, must-revalidate">
+    <META HTTP-EQUIV="expires" CONTENT="0">
+    <title></title>
+    <script type="text/javascript" src="https://webapi.amap.com/maps?v=1.4.15&key=您申请的key值"></script>
+    <!-- <script src="./src/map.js"></script> -->
+    <script src="./proj4.js"></script>
+    <style>
+        #map {
+            width: 100vw;
+            height: 100vh;
+            position: absolute;
+            z-index: 2;
+        }
+
+        #amap {
+            width: 100vw;
+            height: 100vh;
+            position: absolute;
+            z-index: 1;
+        }
+
+        .btn {
+            position: relative;
+            z-index: 100;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="map"></div>
+    <div id="amap"></div>
+    <button id="btn" class="btn">去掉点</button>
+    <script type="module">
+        import {
+            Map, Point, Polyline, Polygon, GraphicsLayer, Graphic, PictureMarkerSymbol,
+            FeatureLayer, Requests, ClassBreakRenderer, DefProjection, Crs
+        } from "./index.js"
+        var rest_visibleResolution =
+            "6.866455078124993E-4_3.433227539062497E-4_1.7166137695312497E-4_8.583068847656249E-5_4.291534423828124E-5_2.145767211914062E-5_1.072883605957031E-5_5.364418029785155E-6_2.6822090148925777E-6_1.3411045074462889E-6"; //坐标系类型为GCS_China_2000的服务的配置参数
+        var arr =rest_visibleResolution.split("_");
+        let center=  [0, 0];
+        //   let crs = new Crs({
+        //         code: "EPSG:4490",
+        //         def: "+proj=longlat +ellps=GRS80 +no_defs",
+        //         resolutions: arr, //分辨率
+        //         dpi: 96, //一个单位内含有的像素
+        //         bounds: [[-180, 90], [180, -90]],//给平面坐标的范围(xy倒置即可)
+        //         origin: [100, 20], //原点设置整个地图中心点  经纬坐标 用来设
+        //     });
+        debugger;
+        let projecttion=new DefProjection("EPSG:4490", "+proj=longlat +ellps=GRS80 +no_defs", [[-180, 90], [180, -90]])
+      let crs= new Crs({
+       
+              projection:projecttion,
+              resolutions: arr, //分辨率
+              dpi: 96, //一个单位内含有的像素
+              bounds: [[-180, 90], [180, -90]],//给平面坐标的范围(xy倒置即可)
+              origin: [100, 20], //原点设置整个地图中心点  经纬坐标 用来设
+         
+      })
+        let map = new Map("map", {
+            center: center,
+            zoom: 3,
+            crs:crs
+        })
+        //北京
+        const point = new Point([116.397411, 39.909186]);
+        let gra = new Graphic({ geometry: point })
+        let point0 = new Point([0, 0]);
+        map.graphics.add(gra)
+        map.graphics.add({
+            geometry: point0,
+            symbol: new PictureMarkerSymbol()
+        })
+
+        let layer = new GraphicsLayer({ id: "gra" });
+
+        //经线
+        for (let i = -180; i <= 180; i = i + 10) {
+            const line = new Polyline([[i, -80], [i, 80]]);
+            let gra = new Graphic({ geometry: line });
+            layer.add(gra)
+        }
+        //纬线
+        for (let j = -80; j <= 80; j = j + 10) {
+            const line = new Polyline([[-180, j], [180, j]]);
+            let gra = new Graphic({ geometry: line });
+            layer.add(gra)
+        }
+
+
+
+        map.addLayer(layer);
+
+
+        //自定义唯一值渲染
+        let fLayer = new FeatureLayer({ url: "./assets/data/geojson/beijing.json" })
+
+        map.addLayer(fLayer);
+
+        let cfLayer = new FeatureLayer();
+        //分段渲染
+        new Requests("./assets/data/geojson/junction.json").then(res => {
+            cfLayer.features = res.features.map(feature => {
+                let geometry = new Point(feature.geometry.coordinates)
+                return new Graphic({
+                    properties: feature.properties,
+                    geometry: geometry
+                })
+            });
+            cfLayer.renderer = new ClassBreakRenderer();
+            cfLayer.renderer.createClassBreakInfo(res.features, { name: "DEPTH" }, 5)
+            map.addLayer(cfLayer);
+        })
+
+
+        const amap = new AMap.Map("amap", {
+            fadeOnZoom: false,
+            navigationMode: 'classic',
+            optimizePanAnimation: false,
+            animateEnable: false,
+            dragEnable: false,
+            zoomEnable: false,
+            resizeEnable: true,
+            doubleClickZoom: false,
+            keyboardEnable: false,
+            scrollWheel: false,
+            expandZoomRange: true,
+            zooms: [1, 20],
+            mapStyle: 'normal',
+            features: ['road', 'point', 'bg'],
+            viewMode: '2D'
+        });
+
+        map.on("extent", (event) => {
+            amap.setZoomAndCenter(event.zoom, event.center);
+        });
+        map.refresh();
+        document.getElementById("btn").addEventListener("click", function () {
+            map.graphics.removeAll()
+        })
+    </script>
+</body>
+
+
+</html>
