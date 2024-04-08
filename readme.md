@@ -12,6 +12,7 @@
 8. 加载 4490坐标系的wms服务，图层层级控制
 9. 事件交互,点击获取要
 10. 要素标注，要素聚合
-11. 更新中...
+11. draw 绘制交互
+12. 更新中...
 
 主要参考  [Green GIS JS API](https://github.com/shengzheng1981/green-gis-js)

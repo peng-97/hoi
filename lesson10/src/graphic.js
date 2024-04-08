@@ -29,7 +29,7 @@ export class Graphic extends SubObject{
     draw(ctx,map) {
         if (this.visible) {
            return  this.geometry.draw(ctx,map,this.symbol);
-         }
+        }
     }
     
     /**
