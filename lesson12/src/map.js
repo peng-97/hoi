@@ -289,7 +289,7 @@ export class Map extends SubObject {
         if (this._drag) {
             this.container.style.cursor = "default"
         }
-        // this._drag = false;
+        this._drag = false;
         
     }
 

@@ -73,10 +73,9 @@ export class WMTSLayer extends Layer {
                     col: col * matrix.a + matrix.e,
                     x: (col - centerx) / tileSize,
                     y: (row - centery) / tileSize,
-                    name:`${col}-${row}-${zoom}`
+                    name:`${col}-${row}-${zoom}`,//x y z
                 }
                 urls.push(obj)
-                
             }
         }
         urls.sort((a, b) => { //从中心点排序

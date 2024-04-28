@@ -6,8 +6,8 @@ export class gridCentroidUnion extends Cluster{
    /**
     * 单位是像素
     */
-    size = 30;
-    distance = 50;
+    size = 30;//三十像素一个格子
+    distance = 50;//最短距离为50
     clusters=[]
     /**
      * 生成聚合
@@ -80,7 +80,6 @@ export class gridCentroidUnion extends Cluster{
             return acc;
             
         },[])
-        let matrix = map.matrix;
         return center;
     }
 }

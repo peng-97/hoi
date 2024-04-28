@@ -58,9 +58,8 @@ export class WMSLayer extends Layer {
             let img = this.image;
             img.setAttribute("src", url)
             ctx.save();
-            ctx.setTransform(1, 0, 0, 1, 0, 0);
             ctx.clearRect(0, 0, this.map.width, this.map.height);
-            ctx.drawImage(img, 0, 0, this.map.width, this.map.height)
+            // ctx.drawImage(img, 0, 0, this.map.width, this.map.height)
             ctx.restore();
             this.emit("loaded", {})
         }

@@ -18,4 +18,3 @@ function getTile(prams) {
     return data;
 }
 const result = getData()
-debugger

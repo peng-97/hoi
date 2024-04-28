@@ -62,11 +62,9 @@ export class GraphicsLayer extends Layer {
              graphic.draw(this.ctx,this.map)
         })
         this.emit("loaded")
-
     }
 
     zoom() {
-     
         this.draw();
     }
     move() {

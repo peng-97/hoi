@@ -109,7 +109,6 @@ fLayer.on("click", (event) => {
 })
 
 let cfLayer = new FeatureLayer();
-
 //分段渲染
 new Requests("./assets/data/geojson/junction.json").then(res => {
     cfLayer.features = res.features.map(feature => {
@@ -147,8 +146,8 @@ map.on("click", res => {
     console.log(res)
 })
 
-let wmsLayer = new WMSLayer({ id: "wmsL", url: "https://gisserver.tianditu.gov.cn/TDTService/wms", subLayers: ['HYDA'] });
-map.addLayer(wmsLayer)
+// let wmsLayer = new WMSLayer({ id: "wmsL", url: "https://gisserver.tianditu.gov.cn/TDTService/wms", subLayers: ['HYDA'] });
+// map.addLayer(wmsLayer)
 
 let draw = new Draw(map);
 

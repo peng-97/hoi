@@ -14,6 +14,7 @@
 10. 要素标注，要素聚合
 11. draw 绘制交互
 12. 地图拖拽
-13. 更新中....
+13. web-mecator投影下加载服务
+14. 更新中
 
 主要参考  [Green GIS JS API](https://github.com/shengzheng1981/green-gis-js)

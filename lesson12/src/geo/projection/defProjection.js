@@ -45,7 +45,6 @@ export class DefProjection extends Projection {
      */
     unproject([x, y]) {
         return this.projection.inverse([x, y]);
-
     }
 
 }
